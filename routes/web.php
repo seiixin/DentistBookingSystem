@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -57,40 +57,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-
 /*
 |---------------------------------------------------------------------------
 | Admin Routes (Only for admin users)
 |---------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    });
+    // Admin dashboard
+    Route::get('/dashboard', fn () => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
 
-    Route::get('/appointments', function () {
-        return Inertia::render('Admin/ManagementAppointments');
-    });
+    /**
+     * Appointment Routes - use controller for logic
+     */
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::post('/appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+    Route::post('/appointments/{id}/cancel', [AppointmentController::class, 'cancel'])->name('appointments.cancel');
+    Route::get('/appointments/{id}/edit', [AppointmentController::class, 'edit'])->name('appointments.edit');
 
-    Route::get('/patients', function () {
-        return Inertia::render('Admin/PatientRecords');
-    });
+    // appointments CRUD
+    Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
+    Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 
-    Route::get('/schedule', function () {
-        return Inertia::render('Admin/ScheduleManagement');
-    });
-
-    Route::get('/treatments', function () {
-        return Inertia::render('Admin/TreatmentNotes');
-    });
-
-    Route::get('/notifications', function () {
-        return Inertia::render('Admin/Notifications');
-    });
-
-    Route::get('/settings', function () {
-        return Inertia::render('Admin/Settings');
-    });
+    /**
+     * View-only Admin Pages
+     */
+    Route::get('/patients', fn () => Inertia::render('Admin/PatientRecords'))->name('admin.patients');
+    Route::get('/schedule', fn () => Inertia::render('Admin/ScheduleManagement'))->name('admin.schedule');
+    Route::get('/treatments', fn () => Inertia::render('Admin/TreatmentNotes'))->name('admin.treatments');
+    Route::get('/notifications', fn () => Inertia::render('Admin/Notifications'))->name('admin.notifications');
+    Route::get('/settings', fn () => Inertia::render('Admin/Settings'))->name('admin.settings');
 });
 
 

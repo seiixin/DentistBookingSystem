@@ -6,16 +6,20 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\AdminUserSeeder;
+use Database\Seeders\AppointmentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
+     *
+     * @return void
      */
     public function run(): void
     {
-        // Admin users
+        // Call the necessary seeders
         $this->call(AdminUserSeeder::class);
+        $this->call(AppointmentSeeder::class);  // Ensure the AppointmentSeeder is called correctly
 
         // Patient User
         User::create([
