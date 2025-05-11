@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -88,14 +89,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('/patients/data', [PatientController::class, 'index'])->name('patients.data');
     Route::get('/admin/patients/json', [PatientController::class, 'json']);
-
+    Route::resource('schedules', ScheduleController::class);
     // View route for the page
     Route::get('/patients', fn () => Inertia::render('Admin/PatientRecords'))->name('admin.patients');
-        /**
+    Route::post('/admin/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
+
+    /**
      * View-only Admin Pages
      */
-
-    Route::get('/schedule', fn () => Inertia::render('Admin/ScheduleManagement'))->name('admin.schedule');
+    // Schedule Management Controller
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('admin.schedule');
+    Route::post('/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
     Route::get('/notifications', fn () => Inertia::render('Admin/Notifications'))->name('admin.notifications');
     Route::get('/settings', fn () => Inertia::render('Admin/Settings'))->name('admin.settings');
 });
