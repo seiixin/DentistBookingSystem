@@ -1,4 +1,4 @@
-// resources/js/Pages/Admin/ManagementAppointments.jsx
+// resources/js/Pages/Admin/Notifications.jsx
 import AdminLayout from "@/Layouts/AdminLayout";
 
 const Notifications = () => {

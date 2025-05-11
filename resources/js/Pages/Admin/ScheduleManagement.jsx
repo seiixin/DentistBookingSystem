@@ -1,3 +1,4 @@
+// resources/js/Pages/Admin/ScheduleManagement.jsx
 import AdminLayout from "@/Layouts/AdminLayout";
 
 const ScheduleManagement = () => {

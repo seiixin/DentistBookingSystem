@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AppointmentController;
+use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -59,9 +60,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 /*
 |---------------------------------------------------------------------------
-| Admin Routes (Only for admin users)
+| Web Routes
 |---------------------------------------------------------------------------
 */
+
+/**
+ * Admin Routes (Only for admin users)
+ */
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Admin dashboard
     Route::get('/dashboard', fn () => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
@@ -79,15 +84,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 
-    /**
+   // Patient Records Controller
+
+    Route::get('/patients/data', [PatientController::class, 'index'])->name('patients.data');
+    Route::get('/admin/patients/json', [PatientController::class, 'json']);
+
+    // View route for the page
+    Route::get('/patients', fn () => Inertia::render('Admin/PatientRecords'))->name('admin.patients');
+        /**
      * View-only Admin Pages
      */
-    Route::get('/patients', fn () => Inertia::render('Admin/PatientRecords'))->name('admin.patients');
+
     Route::get('/schedule', fn () => Inertia::render('Admin/ScheduleManagement'))->name('admin.schedule');
-    Route::get('/treatments', fn () => Inertia::render('Admin/TreatmentNotes'))->name('admin.treatments');
     Route::get('/notifications', fn () => Inertia::render('Admin/Notifications'))->name('admin.notifications');
     Route::get('/settings', fn () => Inertia::render('Admin/Settings'))->name('admin.settings');
 });
+
+
+
 
 
 /*

@@ -1,3 +1,4 @@
+// resources/js/Pages/Admin/Settings.jsx
 import AdminLayout from "@/Layouts/AdminLayout";
 
 const Settings = () => {

@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
     {
         // Call the necessary seeders
         $this->call(AdminUserSeeder::class);
-        $this->call(AppointmentSeeder::class);  // Ensure the AppointmentSeeder is called correctly
+        $this->call(AppointmentSeeder::class);
+        $this->call(PatientSeeder::class);
 
         // Patient User
         User::create([
@@ -27,8 +28,8 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Seok',
             'email' => 'Sidneypagdanganan@gmail.com',
             'password' => Hash::make('Sidney123'),
-            'number' => '09946260502', // Adding a phone number
-            'address' => '123 Groove Street Los Santos', // Adding address
+            'number' => '09946260502',
+            'address' => '123 Groove Street Los Santos', 
             'is_admin' => false,
         ]);
     }

@@ -17,7 +17,6 @@ const Sidebar = () => {
                 <Link href="/admin/appointments" className="hover:bg-blue-500 p-3 rounded-lg">Management Appointments</Link>
                 <Link href="/admin/patients" className="hover:bg-blue-500 p-3 rounded-lg">Patient Records</Link>
                 <Link href="/admin/schedule" className="hover:bg-blue-500 p-3 rounded-lg">Schedule Management</Link>
-                <Link href="/admin/treatments" className="hover:bg-blue-500 p-3 rounded-lg">Treatment Notes</Link>
                 <Link href="/admin/notifications" className="hover:bg-blue-500 p-3 rounded-lg">Notifications</Link>
                 <Link href="/admin/settings" className="hover:bg-blue-500 p-3 rounded-lg">Settings</Link>
 
