@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminUserSeeder::class);
         $this->call(AppointmentSeeder::class);
         $this->call(PatientSeeder::class);
+        $this->call([
+        NotificationSeeder::class,
+        ContactMessageSeeder::class,
+        ]);
 
         // Patient User
         User::create([
@@ -29,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'Sidneypagdanganan@gmail.com',
             'password' => Hash::make('Sidney123'),
             'number' => '09946260502',
-            'address' => '123 Groove Street Los Santos', 
+            'address' => '123 Groove Street Los Santos',
             'is_admin' => false,
         ]);
     }

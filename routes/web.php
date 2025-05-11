@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -94,13 +95,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/patients', fn () => Inertia::render('Admin/PatientRecords'))->name('admin.patients');
     Route::post('/admin/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
 
+    // Break time/day Scheduler Controller
+
+    Route::get('/schedule', [ScheduleController::class, 'index'])->name('admin.schedule');
+    Route::post('/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
+
+    // Notifications and inbox Controller
+    Route::get('/notifications', fn () => Inertia::render('Admin/Notifications'))->name('admin.notifications');
+    Route::get('/notifications', [AdminNotificationController::class, 'index'])->name('admin.notifications');
+
+
     /**
      * View-only Admin Pages
      */
     // Schedule Management Controller
-    Route::get('/schedule', [ScheduleController::class, 'index'])->name('admin.schedule');
-    Route::post('/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
-    Route::get('/notifications', fn () => Inertia::render('Admin/Notifications'))->name('admin.notifications');
+
     Route::get('/settings', fn () => Inertia::render('Admin/Settings'))->name('admin.settings');
 });
 

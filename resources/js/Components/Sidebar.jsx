@@ -10,7 +10,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="w-64 h-screen bg-blue-600 text-white p-6">
+        <div className="w-64 h-screen sticky top-0 bg-blue-600 text-white p-6 overflow-y-auto">
             <h2 className="text-2xl font-bold mb-8">Admin Panel</h2>
             <nav className="flex flex-col space-y-4">
                 <Link href="/admin/dashboard" className="hover:bg-blue-500 p-3 rounded-lg">Admin Dashboard</Link>
