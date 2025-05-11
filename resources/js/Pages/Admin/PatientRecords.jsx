@@ -1,5 +1,3 @@
-// resources/js/Pages/Admin/PatientRecords.jsx
-
 import { useEffect, useState } from 'react';
 import AdminLayout from "@/Layouts/AdminLayout";
 import axios from 'axios';
@@ -7,20 +5,16 @@ import axios from 'axios';
 const PatientRecords = () => {
     const [patients, setPatients] = useState([]); // Ensure patients is an array
     const [search, setSearch] = useState('');
+    const [filter, setFilter] = useState(''); // Filter state
 
     useEffect(() => {
         fetchPatients();
-    }, [search]);
+    }, [search, filter]); // Re-fetch patients on search or filter change
 
-
-    /**
-     * Alternative Fix - Add Accept header to axios call in React
-     */
     const fetchPatients = async () => {
         try {
             const response = await axios.get('/admin/patients/data', {
-
-                params: { search },
+                params: { search, filter },
                 headers: {
                     'Accept': 'application/json',
                 },
@@ -38,19 +32,34 @@ const PatientRecords = () => {
         }
     };
 
-
     return (
         <AdminLayout>
             <div>
                 <h2 className="text-3xl font-bold text-blue-600 mb-6">Patient Records</h2>
 
-                <input
-                    type="text"
-                    placeholder="Search patients..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="border rounded px-4 py-2 mb-4 w-full max-w-md"
-                />
+                <div className="mb-4 flex items-center gap-4">
+                    <input
+                        type="text"
+                        placeholder="Search patients..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="border rounded px-4 py-2 w-full max-w-md"
+                    />
+                    <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="border rounded px-4 py-2"
+                    >
+                        <option value="">Filter by Medical Concern</option>
+                        <option value="">Filter by Treatment</option>
+                        <option value="Teeth Cleaning">Teeth Cleaning</option>
+                        <option value="Root Canal">Root Canal</option>
+                        <option value="Whitening Treatment">Whitening Treatment</option>
+                        <option value="Fillings">Fillings</option>
+                        <option value="Cavity Check">Cavity Check</option>
+                        <option value="Dental Checkup">Dental Checkup</option>
+                    </select>
+                </div>
 
                 <table className="min-w-full bg-white border border-gray-200 shadow rounded">
                     <thead className="bg-blue-100">
