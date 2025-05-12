@@ -97,56 +97,55 @@ const ManagementAppointments = ({ appointments: initialAppointments }) => {
             <div className="p-6">
                 <h2 className="text-3xl font-bold text-blue-600 mb-6">Manage Appointments</h2>
 
-                {/* Filters and Search */}
+                {/* Filters and Search - Neuromorphic White Style */}
                 <div className="mb-4 flex space-x-4">
-                    <input
-                        type="text"
-                        placeholder="Search by name or treatment"
-                        className="px-4 py-2 border rounded-md w-1/3"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <select
-                        className="px-4 py-2 border rounded-md"
-                        value={statusFilter}
-                        onChange={(e) => setStatusFilter(e.target.value)}
-                    >
-                        <option value="">Filter by Status</option>
-                        {statusOptions.map((status) => (
-                            <option key={status} value={status}>{status}</option>
-                        ))}
-                    </select>
-                    <select
-                        className="px-4 py-2 border rounded-md"
-                        value={treatmentFilter}
-                        onChange={(e) => setTreatmentFilter(e.target.value)}
-                    >
-                        <option value="">Filter by Treatment</option>
-                        {treatmentOptions.map((treatment) => (
-                            <option key={treatment} value={treatment}>{treatment}</option>
-                        ))}
-                    </select>
-
-                    {/* Add Appointment Button */}
-                    <button
-                        onClick={() => setAddingAppointment(true)}  // Open the Add Appointment modal
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                    >
-                        Add Appointment
-                    </button>
+                <input
+                    type="text"
+                    placeholder="Search by name or treatment"
+                    className="px-4 py-2 w-1/3 rounded-xl shadow-inner bg-[#f7f7f7] text-gray-900 border-none outline-none focus:ring-2 focus:ring-gray-300"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <select
+                    className="px-4 py-2 rounded-xl shadow-inner bg-[#f7f7f7] text-gray-900 border-none outline-none focus:ring-2 focus:ring-gray-300"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                    <option value="">Filter by Status </option>
+                    {statusOptions.map((status) => (
+                    <option key={status} value={status}>{status}</option>
+                    ))}
+                </select>
+                <select
+                    className="px-4 py-2 rounded-xl shadow-inner bg-[#f7f7f7] text-gray-900 border-none outline-none focus:ring-2 focus:ring-gray-300"
+                    value={treatmentFilter}
+                    onChange={(e) => setTreatmentFilter(e.target.value)}
+                >
+                    <option value="">Filter by Treatment</option>
+                    {treatmentOptions.map((treatment) => (
+                    <option key={treatment} value={treatment}>{treatment}</option>
+                    ))}
+                </select>
+                <button
+                    onClick={() => setAddingAppointment(true)}
+                    className="px-4 py-2 rounded-xl shadow-inner bg-[#f7f7f7] text-gray-900 border-none outline-none focus:ring-2 focus:ring-gray-300"
+                >
+                    + Appointment
+                </button>
                 </div>
 
-                <div className="overflow-x-auto">
+
+                    <div className="overflow-x-auto">
                     <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                         <thead className="bg-pink-100 text-pink-800">
-                            <tr>
-                                <th className="px-4 py-2 text-left">Date</th>
-                                <th className="px-4 py-2 text-left">Time</th>
-                                <th className="px-4 py-2 text-left">Patient</th>
-                                <th className="px-4 py-2 text-left">Treatment</th>
-                                <th className="px-4 py-2 text-left">Status</th>
-                                <th className="px-4 py-2 text-left">Actions</th>
-                            </tr>
+                        <tr>
+                            <th className="px-4 py-2 text-left">Date</th>
+                            <th className="px-4 py-2 text-left">Time</th>
+                            <th className="px-4 py-2 text-left">Patient</th>
+                            <th className="px-4 py-2 text-left">Treatment</th>
+                            <th className="px-4 py-2 text-left">Status</th>
+                            <th className="px-4 py-2 text-left">Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
                             {filteredAppointments.map((appointment) => (

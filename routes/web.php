@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -73,7 +74,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Admin dashboard
     Route::get('/dashboard', fn () => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
-
+    Route::get('/dashboard-data', [AdminDashboardController::class, 'dashboardData'])->name('admin.dashboardData');
     /**
      * Appointment Routes - use controller for logic
      */

@@ -38,40 +38,40 @@ const PatientRecords = () => {
                 <h2 className="text-3xl font-bold text-blue-600 mb-6">Patient Records</h2>
 
                 <div className="mb-4 flex items-center gap-4">
-                    <input
-                        type="text"
-                        placeholder="Search patients..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="border rounded px-4 py-2 w-full max-w-md"
-                    />
-                    <select
-                        value={filter}
-                        onChange={(e) => setFilter(e.target.value)}
-                        className="border rounded px-4 py-2"
-                    >
-                        <option value="">Filter by Medical Concern</option>
-                        <option value="">Filter by Treatment</option>
-                        <option value="Teeth Cleaning">Teeth Cleaning</option>
-                        <option value="Root Canal">Root Canal</option>
-                        <option value="Whitening Treatment">Whitening Treatment</option>
-                        <option value="Fillings">Fillings</option>
-                        <option value="Cavity Check">Cavity Check</option>
-                        <option value="Dental Checkup">Dental Checkup</option>
-                    </select>
+                <input
+                    type="text"
+                    placeholder="Search patients..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="border-none rounded-xl px-4 py-2 w-full max-w-md shadow-inner bg-[#f7f7f7] text-gray-900 outline-none focus:ring-2 focus:ring-gray-300"
+                />
+                <select
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="border-none rounded-xl px-4 py-2 shadow-inner bg-[#f7f7f7] text-gray-900 outline-none focus:ring-2 focus:ring-gray-300"
+                >
+                    <option value="">Filter by Medical Concern</option>
+                    <option value="">Filter by Treatment</option>
+                    <option value="Teeth Cleaning">Teeth Cleaning</option>
+                    <option value="Root Canal">Root Canal</option>
+                    <option value="Whitening Treatment">Whitening Treatment</option>
+                    <option value="Fillings">Fillings</option>
+                    <option value="Cavity Check">Cavity Check</option>
+                    <option value="Dental Checkup">Dental Checkup</option>
+                </select>
                 </div>
 
-                <table className="min-w-full bg-white border border-gray-200 shadow rounded">
-                    <thead className="bg-blue-100">
-                        <tr className="text-left">
-                            <th className="px-4 py-2 border-b">Name</th>
-                            <th className="px-4 py-2 border-b">Age</th>
-                            <th className="px-4 py-2 border-b">Last Visit</th>
-                            <th className="px-4 py-2 border-b">Medical Concerns</th>
-                            <th className="px-4 py-2 border-b">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-xl">
+                <thead className="bg-[#f7f7f7]">
+                    <tr className="text-left">
+                    <th className="px-4 py-2 border-b">Name</th>
+                    <th className="px-4 py-2 border-b">Age</th>
+                    <th className="px-4 py-2 border-b">Last Visit</th>
+                    <th className="px-4 py-2 border-b">Medical Concerns</th>
+                    <th className="px-4 py-2 border-b">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
                         {patients.length > 0 ? (
                             patients.map((patient, index) => (
                                 <tr key={index} className="text-center border-t">
