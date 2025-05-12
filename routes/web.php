@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\AdminNotificationController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -86,8 +87,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::put('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('appointments.update');
     Route::delete('/appointments/{id}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 
-   // Patient Records Controller
-
+    // Patient Records Controller
     Route::get('/patients/data', [PatientController::class, 'index'])->name('patients.data');
     Route::get('/admin/patients/json', [PatientController::class, 'json']);
     Route::resource('schedules', ScheduleController::class);
@@ -96,7 +96,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/admin/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
 
     // Break time/day Scheduler Controller
-
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('admin.schedule');
     Route::post('/schedule', [ScheduleController::class, 'store'])->name('admin.schedule.store');
 
@@ -104,19 +103,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/notifications', fn () => Inertia::render('Admin/Notifications'))->name('admin.notifications');
     Route::get('/notifications', [AdminNotificationController::class, 'index'])->name('admin.notifications');
 
-
-    /**
-     * View-only Admin Pages
-     */
-    // Schedule Management Controller
-
+    // Settings Controller
     Route::get('/settings', fn () => Inertia::render('Admin/Settings'))->name('admin.settings');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('admin.settings');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('admin.settings.updatePassword');
+    Route::put('/settings/contact', [SettingsController::class, 'updateContact'])->name('admin.settings.updateContact');
 });
-
-
-
-
-
 /*
 |---------------------------------------------------------------------------
 | Auth scaffolding routes (login, logout, register, etc.)
@@ -125,6 +117,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
      ->name('logout');
-
 
 require __DIR__ . '/auth.php';
