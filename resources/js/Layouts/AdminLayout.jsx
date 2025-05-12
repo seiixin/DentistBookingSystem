@@ -3,13 +3,13 @@ import Sidebar from '@/Components/Sidebar';
 
 const AdminLayout = ({ children }) => {
     return (
-        <div className="flex min-h-screen">
-            {/* Sidebar */}
+        <div className="flex min-h-screen bg-[#e0e5ec]">
             <Sidebar />
 
-            {/* Page Content */}
-            <main className="flex-1 bg-white p-6">
-                {children} {/* ← This must be included or the page will appear empty */}
+            <main className="flex-1 p-6">
+                <div className="bg-[#e0e5ec] p-6 rounded-xl shadow-[8px_8px_15px_#a3b1c6,-8px_-8px_15px_#ffffff]">
+                    {children}
+                </div>
             </main>
         </div>
     );
