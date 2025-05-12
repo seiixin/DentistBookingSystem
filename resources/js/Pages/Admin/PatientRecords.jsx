@@ -82,7 +82,7 @@ const PatientRecords = () => {
                                     <td className="px-4 py-2">
                                         <a
                                             href={`/admin/patients/${patient.id}`}
-                                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                            className="bg-blue-500 text-white px-2 sm:px-3 py-1 text-sm sm:text-base rounded hover:bg-blue-600 whitespace-nowrap"
                                         >
                                             View Profile
                                         </a>
