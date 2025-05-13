@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Sidebar from '@/Components/Admin/Sidebar';
-import MobileMenu from '@/Components/Admin/MobileMenu';
+import Sidebar from '@/Components/User/Sidebar';
+import MobileMenu from '@/Components/User/MobileMenu';
 
-const AdminLayout = ({ children }) => {
+const UserLayout = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -10,22 +10,22 @@ const AdminLayout = ({ children }) => {
 
     return (
         <div className="flex min-h-screen bg-[#e0e5ec]">
-            {/* Sidebar: Hide on smaller screens and show on larger ones */}
+            {/* Sidebar: Show on large screens */}
             <div className="lg:block hidden">
                 <Sidebar />
             </div>
 
             {/* Main content */}
             <main className="flex-1 p-6">
-                <div className="bg-[#e0e5ec] p-6 rounded-xl shadow-[8px_8px_15px_#a3b1c6,-8px_-8px_15px_#ffffff]">
+                <div className="bg-[#ffe5ec p-6 rounded-xl shadow-[8px_8px_15px_#a3b1c6,-8px_-8px_15px_#ffffff]">
                     {children}
                 </div>
             </main>
 
-            {/* Mobile Menu Trigger: Visible only on smaller screens */}
+            {/* Floating Mobile Menu Button */}
             <button
                 onClick={toggleMenu}
-                className="lg:hidden fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full"
+                className="lg:hidden fixed bottom-4 right-4 bg-pink-500 text-white p-4 rounded-full shadow-lg"
                 aria-label="Open mobile menu"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -33,10 +33,10 @@ const AdminLayout = ({ children }) => {
                 </svg>
             </button>
 
-            {/* Mobile Menu */}
+            {/* Mobile Menu Drawer */}
             <MobileMenu isOpen={isMenuOpen} closeMenu={closeMenu} />
         </div>
     );
 };
 
-export default AdminLayout;
+export default UserLayout;
