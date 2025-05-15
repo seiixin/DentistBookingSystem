@@ -55,9 +55,12 @@ const AppointmentForm = () => {
           <option value="" disabled>
             Select a treatment
           </option>
-          <option value="treatment1">Treatment 1</option>
-          <option value="treatment2">Treatment 2</option>
-          <option value="treatment3">Treatment 3</option>
+          <option value="treatment1">Teeth Cleaning</option>
+          <option value="treatment2">Root Canal</option>
+          <option value="treatment3">Whitening Treatment</option>
+          <option value="treatment3">Fillings</option>
+          <option value="treatment3">Cavity Check</option>
+          <option value="treatment3">Dental Checkup</option>
         </select>
       </div>
 
