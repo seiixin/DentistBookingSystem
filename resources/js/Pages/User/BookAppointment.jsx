@@ -1,9 +1,21 @@
 import React from "react";
 import UserLayout from '@/Layouts/UserLayout';
 import Appointment from "@/Pages/Appointment";
-import { Head } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 
 export default function BookAppointment() {
+    const { data, setData, post, processing, errors } = useForm({
+        patient_name: '',
+        date: '',
+        time: '',
+        treatment: '',
+    });
+
+    const submit = (e) => {
+        e.preventDefault();
+        post('/appointments');
+    };
+
     return (
         <UserLayout
             header={
@@ -13,11 +25,17 @@ export default function BookAppointment() {
             }
         >
             <Head title="Book Appointment" />
-            <div className="py-12 ">
-                <div className=" mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    {/* Embed your appointment form/page inside user layout */}
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-transparent shadow-sm sm:rounded-lg p-6">
-                        <Appointment />
+                        {/* Pass props to Appointment component */}
+                        <Appointment
+                            data={data}
+                            setData={setData}
+                            submit={submit}
+                            processing={processing}
+                            errors={errors}
+                        />
                     </div>
                 </div>
             </div>

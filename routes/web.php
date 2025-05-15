@@ -11,6 +11,8 @@ use App\Http\Controllers\auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\User\AppointmentController as UserAppointmentController;
+
 
 /*
 |---------------------------------------------------------------------------
@@ -61,11 +63,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/book-appointment', function () {
         return Inertia::render('User/BookAppointment');
     })->name('bookappointment');
+    Route::post('/appointments', [UserAppointmentController::class, 'store']);
+
 
     // Contact Clinic Page
     Route::get('/user/contact', function () {
         return Inertia::render('User/ContactClinic');
     })->name('contactclinic');
+
+
 
 
     // Profile Management
