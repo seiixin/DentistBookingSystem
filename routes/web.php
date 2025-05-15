@@ -51,15 +51,30 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Dashboard route for authenticated users
-    Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard');
 
-    // Profile management routes
-    Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // User Dashboard
+    Route::get('/dashboard', function () {
+        return Inertia::render('User/Dashboard');
+    })->name('dashboard');
+
+    // Book Appointment Page
+    Route::get('/user/book-appointment', function () {
+        return Inertia::render('User/BookAppointment');
+    })->name('bookappointment');
+
+    // Contact Clinic Page
+    Route::get('/user/contact', function () {
+        return Inertia::render('User/ContactClinic');
+    })->name('contactclinic');
+
+
+    // Profile Management
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
     });
+
 });
 
 /*
