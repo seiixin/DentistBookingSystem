@@ -53,7 +53,6 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('success', 'Appointment cancelled successfully');
     }
 
-    // ✅ Add this method for updating an existing appointment
     public function update(Request $request, Appointment $appointment)
     {
         $validated = $request->validate([
@@ -61,7 +60,8 @@ class AppointmentController extends Controller
             'time' => 'required',
             'status' => 'required|in:Pending,Approved,Rejected,Cancelled,Completed,Upcoming',
             'notes' => 'nullable|string|max:1000',
-            // Add other fields to validate/update as needed
+            'number' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
         ]);
 
         $appointment->update($validated);
@@ -69,7 +69,6 @@ class AppointmentController extends Controller
         return redirect()->back()->with('message', 'Appointment updated successfully!');
     }
 
-    // ✅ Add the store method to create a new appointment
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -78,12 +77,12 @@ class AppointmentController extends Controller
             'date' => 'required|date',
             'time' => 'required',
             'status' => 'required|in:Pending,Approved,Cancelled,Completed',
+            'number' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
         ]);
 
-        // Create the new appointment
         $appointment = Appointment::create($validated);
 
-        // Return a success message
         return redirect()->route('appointments.index')->with('success', 'Appointment created successfully');
     }
 

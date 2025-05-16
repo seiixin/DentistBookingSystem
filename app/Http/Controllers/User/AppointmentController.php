@@ -15,6 +15,8 @@ class AppointmentController extends Controller
             'date' => 'required|date',
             'time' => 'required|string|max:255',
             'treatment' => 'required|string|max:255',
+            'number' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
         ]);
 
         Appointment::create([
@@ -22,6 +24,8 @@ class AppointmentController extends Controller
             'date' => $request->date,
             'time' => $request->time,
             'treatment' => $request->treatment,
+            'number' => $request->number,
+            'email' => $request->email,
             'status' => 'Pending',
         ]);
 

@@ -9,6 +9,8 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
         treatment: '',
         notes: '',
         status: 'Pending',
+        number: '',    // Added phone number
+        email: '',     // Added email
     });
 
     const handleChange = (e) => {
@@ -42,9 +44,9 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
     const statusOptions = ['Pending', 'Upcoming', 'Approved', 'Completed', 'Cancelled'];
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-                <div className="flex justify-between items-center mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto">
+        <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
+                    <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold text-pink-600">Add Appointment</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700">&times;</button>
                 </div>
@@ -58,6 +60,8 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                 )}
 
                 <form onSubmit={handleSubmit}>
+                    {/* Existing fields */}
+
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Date</span>
                         <input
@@ -90,6 +94,34 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                             value={data.patient_name}
                             onChange={handleChange}
                             className="w-full p-2 mt-1 border rounded"
+                            required
+                        />
+                    </label>
+
+                    {/* New Number field */}
+                    <label className="block mb-2">
+                        <span className="text-sm font-semibold">Phone Number</span>
+                        <input
+                            type="tel"
+                            name="number"
+                            value={data.number}
+                            onChange={handleChange}
+                            className="w-full p-2 mt-1 border rounded"
+                            placeholder="09xxxxxxxxx"
+                            required
+                        />
+                    </label>
+
+                    {/* New Email field */}
+                    <label className="block mb-2">
+                        <span className="text-sm font-semibold">Email</span>
+                        <input
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            onChange={handleChange}
+                            className="w-full p-2 mt-1 border rounded"
+                            placeholder="example@example.com"
                             required
                         />
                     </label>

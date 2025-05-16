@@ -6,6 +6,8 @@ import { Head, useForm } from "@inertiajs/react";
 export default function BookAppointment() {
     const { data, setData, post, processing, errors } = useForm({
         patient_name: '',
+        email: '',
+        number: '',
         date: '',
         time: '',
         treatment: '',
