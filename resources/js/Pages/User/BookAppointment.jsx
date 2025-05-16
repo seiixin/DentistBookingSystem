@@ -15,7 +15,7 @@ export default function BookAppointment() {
 
     const submit = (e) => {
         e.preventDefault();
-        post('/appointments');
+        post('/user-appointments');
     };
 
     return (

@@ -7,7 +7,8 @@ use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Guest\GuestAppointmentController; 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,7 +28,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('welcome'); 
 
 Route::get('/appointment', fn () => Inertia::render('Appointment'));
 Route::get('/about', fn () => Inertia::render('About'));
@@ -43,8 +44,10 @@ Route::get('/contact', fn () => Inertia::render('ContactUs'));
 Route::middleware('guest')->group(function () {
     Route::get('/login', fn () => Inertia::render('Auth/Login'))->name('login');
     Route::get('/register', fn () => Inertia::render('Auth/Register'))->name('register');
-});
 
+    // Appointment for guests - using a different route name to avoid conflicts
+    Route::post('/guest-appointments', [GuestAppointmentController::class, 'store'])->name('guest.appointments.store');
+});
 
 /*
 |---------------------------------------------------------------------------
@@ -63,16 +66,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/book-appointment', function () {
         return Inertia::render('User/BookAppointment');
     })->name('bookappointment');
-    Route::post('/appointments', [UserAppointmentController::class, 'store']);
-
+    
+    // User appointment creation - with a specific route name
+    Route::post('/user-appointments', [UserAppointmentController::class, 'store'])->name('user.appointments.store');
 
     // Contact Clinic Page
     Route::get('/user/contact', function () {
         return Inertia::render('User/ContactClinic');
     })->name('contactclinic');
-
-
-
 
     // Profile Management
     Route::prefix('profile')->name('profile.')->group(function () {
