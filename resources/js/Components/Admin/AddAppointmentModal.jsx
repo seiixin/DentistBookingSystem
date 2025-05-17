@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from '@inertiajs/react';
 
-const AddAppointmentModal = ({ onClose, onCreate }) => {
+const AddAppointmentModal = ({ onClose, onCreate, patients = [], user_id = '' }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         date: '',
         time: '',
@@ -9,9 +9,14 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
         treatment: '',
         notes: '',
         status: 'Pending',
-        number: '',    // Added phone number
-        email: '',     // Added email
+        number: '',
+        email: '',
+        user_id: user_id,
     });
+
+    const handlePatientSelect = (e) => {
+        setData('patient_name', e.target.value);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,12 +25,11 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         post('/admin/appointments', {
             onSuccess: (response) => {
                 if (onCreate) onCreate(response?.props?.appointment);
+                onClose();
                 reset();
-                setTimeout(onClose, 1000);
             },
             onError: (err) => {
                 console.error('Error creating appointment:', err);
@@ -45,8 +49,8 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto">
-        <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
-                    <div className="flex justify-between items-center mb-4">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
+                <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-bold text-pink-600">Add Appointment</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700">&times;</button>
                 </div>
@@ -60,8 +64,7 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                 )}
 
                 <form onSubmit={handleSubmit}>
-                    {/* Existing fields */}
-
+                    {/* Date */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Date</span>
                         <input
@@ -74,6 +77,7 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                         />
                     </label>
 
+                    {/* Time */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Time</span>
                         <input
@@ -86,19 +90,36 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                         />
                     </label>
 
+                    {/* Patient Name */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Patient Name</span>
+                        {/* Select dropdown for existing patients */}
+                        <select
+                            value={data.patient_name}
+                            onChange={handlePatientSelect}
+                            className="w-full p-2 mt-1 border rounded mb-2"
+                        >
+                            <option value="">-- Select existing patient (optional) --</option>
+                            {patients.map((patient) => (
+                                <option key={patient.id} value={patient.name}>
+                                    {patient.name}
+                                </option>
+                            ))}
+                        </select>
+
+                        {/* Or a text input for typing new patient name */}
                         <input
                             type="text"
                             name="patient_name"
                             value={data.patient_name}
                             onChange={handleChange}
+                            placeholder="Or type patient name"
                             className="w-full p-2 mt-1 border rounded"
                             required
                         />
                     </label>
 
-                    {/* New Number field */}
+                    {/* Phone Number */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Phone Number</span>
                         <input
@@ -108,11 +129,13 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                             onChange={handleChange}
                             className="w-full p-2 mt-1 border rounded"
                             placeholder="09xxxxxxxxx"
+                            pattern="09\d{9}"
+                            title="Phone number should start with 09 and have 11 digits total."
                             required
                         />
                     </label>
 
-                    {/* New Email field */}
+                    {/* Email */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Email</span>
                         <input
@@ -126,6 +149,7 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                         />
                     </label>
 
+                    {/* Treatment */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Treatment</span>
                         <select
@@ -144,6 +168,7 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                         </select>
                     </label>
 
+                    {/* Status */}
                     <label className="block mb-2">
                         <span className="text-sm font-semibold">Status</span>
                         <select
@@ -160,6 +185,7 @@ const AddAppointmentModal = ({ onClose, onCreate }) => {
                         </select>
                     </label>
 
+                    {/* Notes */}
                     <label className="block mb-4">
                         <span className="text-sm font-semibold">Notes</span>
                         <textarea

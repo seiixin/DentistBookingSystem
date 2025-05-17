@@ -8,11 +8,11 @@ use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Guest\GuestAppointmentController; 
+use App\Http\Controllers\Guest\GuestAppointmentController;
+use App\Http\Controllers\User\AppointmentController as UserAppointmentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\User\AppointmentController as UserAppointmentController;
 
 
 /*
@@ -28,7 +28,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('welcome'); 
+})->name('welcome');
 
 Route::get('/appointment', fn () => Inertia::render('Appointment'));
 Route::get('/about', fn () => Inertia::render('About'));
@@ -56,7 +56,6 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
     // User Dashboard
     Route::get('/dashboard', function () {
         return Inertia::render('User/Dashboard');
@@ -66,14 +65,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/book-appointment', function () {
         return Inertia::render('User/BookAppointment');
     })->name('bookappointment');
-    
-    // User appointment creation - with a specific route name
-    Route::post('/user-appointments', [UserAppointmentController::class, 'store'])->name('user.appointments.store');
+
+    // User appointment creation - with fully qualified namespace
+    Route::post('/user-appointments', [UserAppointmentController::class, 'store'])
+        ->name('user.appointments.store');
 
     // Contact Clinic Page
     Route::get('/user/contact', function () {
         return Inertia::render('User/ContactClinic');
     })->name('contactclinic');
+
+    // Appointment history via GET
+    Route::get('/user/appointments', [UserAppointmentController::class, 'index'])
+        ->name('appointment.history');
 
     // Profile Management
     Route::prefix('profile')->name('profile.')->group(function () {
@@ -81,7 +85,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
     });
-
 });
 
 /*

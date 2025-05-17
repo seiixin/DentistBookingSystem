@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
@@ -9,15 +11,41 @@ use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
+    // List appointments with formatted_date and user_name added
     public function index()
     {
-        $appointments = Appointment::paginate(10);
+        // Eager load user and paginate
+        $appointments = Appointment::with('user')->paginate(10);
+
+        // Add user_name and formatted_date to each appointment in the collection
+        $appointments->getCollection()->transform(function ($appointment) {
+            return [
+                'id' => $appointment->id,
+                'patient_name' => $appointment->patient_name,
+                'date' => $appointment->date,
+                'formatted_date' => $appointment->date->format('F j, Y'), // e.g. May 17, 2025
+                'time' => $appointment->time,
+                'treatment' => $appointment->treatment,
+                'status' => $appointment->status,
+                'number' => $appointment->number,
+                'email' => $appointment->email,
+                'user_name' => $appointment->user ? $appointment->user->name : 'Unknown', // add user name here
+            ];
+        });
 
         return Inertia::render('Admin/ManagementAppointments', [
             'appointments' => $appointments,
         ]);
     }
+    public function create()
+    {
+        $patients = User::select('id', 'name')->get();
 
+        return Inertia::render('Admin/AddAppointmentModal', [
+            'user_id' => Auth::id(),
+            'patients' => $patients,
+        ]);
+    }
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -79,6 +107,7 @@ class AppointmentController extends Controller
             'status' => 'required|in:Pending,Approved,Cancelled,Completed',
             'number' => 'required|string|max:20',
             'email' => 'required|email|max:255',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         $appointment = Appointment::create($validated);

@@ -162,7 +162,7 @@ const ManagementAppointments = ({ appointments: initialAppointments }) => {
               <tbody>
                 {filteredAppointments.map((appointment) => (
                   <tr key={appointment.id} className="border-b hover:bg-pink-50">
-                    <td className="px-4 py-2">{appointment.date}</td>
+                    <td className="px-4 py-2">{appointment.formatted_date}</td>
                     <td className="px-4 py-2">{formatTimeTo12Hour(appointment.time)}</td>
                     <td className="px-4 py-2">{appointment.patient_name}</td>
                     <td className="px-4 py-2">{appointment.email}</td>
