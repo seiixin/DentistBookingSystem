@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Guest\GuestAppointmentController;
+use App\Http\Controllers\User\UserSettingsController;
 use App\Http\Controllers\User\AppointmentController as UserAppointmentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -50,9 +51,9 @@ Route::middleware('guest')->group(function () {
 });
 
 /*
-|---------------------------------------------------------------------------
+|--------------------------------------------------------------------------
 | Authenticated User Routes (Email verified users)
-|---------------------------------------------------------------------------
+|--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -84,6 +85,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+    // User Settings Management
+    Route::prefix('user/settings')->name('user.settings.')->group(function () {
+        Route::get('/', [UserSettingsController::class, 'index'])->name('index');
+        Route::put('/contact', [UserSettingsController::class, 'updateContact'])->name('updateContact');
+        Route::put('/password', [UserSettingsController::class, 'updatePassword'])->name('updatePassword');
     });
 });
 

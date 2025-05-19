@@ -10,6 +10,7 @@ export default function AppointmentHistory({ appointments }) {
             <Head title="Appointment History" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <h1 className="text-3xl font-bold text-blue-600 mb-6">Appointment History</h1>
                     <div className="bg-white shadow-sm sm:rounded-lg p-6 overflow-x-auto">
                         {appointments.length === 0 ? (
                             <p className="text-gray-600">You have no appointment history.</p>

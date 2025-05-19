@@ -17,9 +17,7 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
     const menuItems = [
         { label: '📊 Dashboard', href: '/dashboard' },
         { label: '📅 Appointments', href: '/user/appointments' },
-        { label: '📄 Medical History', href: '/user/medical-history' },
-        { label: '🧾 Receipts', href: '/user/receipts' },
-        { label: '⚙️ Account Settings', href: '/user/account-settings' },
+        { label: '⚙️ Account Settings', href: '/user/settings' },
         { label: '📘 Book Appointment', href: '/user/book-appointment' },
         { label: '📞 Contact Clinic', href: '/user/contact' },
     ];

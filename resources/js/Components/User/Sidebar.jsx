@@ -3,8 +3,6 @@ import { useForm } from '@inertiajs/react';
 import {
     LayoutDashboard,
     CalendarDays,
-    FileText,
-    ReceiptText,
     Settings,
     BookOpen,
     PhoneCall,
@@ -23,9 +21,7 @@ const Sidebar = () => {
     const links = [
         { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
         { href: '/user/appointments', label: 'Appointments', icon: <CalendarDays size={20} /> },
-        { href: '/user/medical-history', label: 'Medical History', icon: <FileText size={20} /> },
-        { href: '/user/receipts', label: 'Receipts', icon: <ReceiptText size={20} /> },
-        { href: '/user/account-settings', label: 'Account Settings', icon: <Settings size={20} /> },
+        { href: '/user/settings', label: 'Account Settings', icon: <Settings size={20} /> },
         { href: '/user/book-appointment', label: 'Book Appointment', icon: <BookOpen size={20} /> },
         { href: '/user/contact', label: 'Contact Clinic', icon: <PhoneCall size={20} /> },
     ];
