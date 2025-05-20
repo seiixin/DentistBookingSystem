@@ -1,15 +1,44 @@
 import React, { useState } from "react";
+import { router } from "@inertiajs/react";
 
 const ContactForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [subject, setSubject] = useState(""); // New subject state
   const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Message sent from ${firstName} ${lastName}!`);
+
+    router.post(
+      "/user/contact",
+      {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        number: phoneNumber,
+        subject,
+        message,
+      },
+      {
+        onSuccess: () => {
+          alert(`Message sent from ${firstName} ${lastName}!`);
+          // Clear the form
+          setFirstName("");
+          setLastName("");
+          setEmail("");
+          setPhoneNumber("");
+          setSubject("");
+          setMessage("");
+        },
+        onError: (errors) => {
+          alert("Please fix the errors and try again.");
+          console.error(errors);
+        },
+      }
+    );
   };
 
   return (
@@ -21,25 +50,28 @@ const ContactForm = () => {
         Contact Our Clinic
       </h2>
 
+      {/* Input Fields */}
       {[
-        { label: "First Name", state: firstName, setState: setFirstName, type: "text" },
-        { label: "Last Name", state: lastName, setState: setLastName, type: "text" },
-        { label: "Email Address", state: email, setState: setEmail, type: "email" },
-        { label: "Phone Number", state: phoneNumber, setState: setPhoneNumber, type: "tel" },
-      ].map(({ label, state, setState, type }) => (
+        { label: "First Name", value: firstName, setValue: setFirstName, type: "text" },
+        { label: "Last Name", value: lastName, setValue: setLastName, type: "text" },
+        { label: "Email Address", value: email, setValue: setEmail, type: "email" },
+        { label: "Phone Number", value: phoneNumber, setValue: setPhoneNumber, type: "tel" },
+        { label: "Subject", value: subject, setValue: setSubject, type: "text" },
+      ].map(({ label, value, setValue, type }) => (
         <div key={label} className="mb-4">
           <label className="block text-blue-600 text-sm mb-2">{label}:</label>
           <input
             type={type}
-            value={state}
-            onChange={(e) => setState(e.target.value)}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             placeholder="Type Here"
-            required={label !== "Phone Number"} // Phone optional
+            required={label !== "Phone Number"} // Make phone optional
             className="w-full p-3 rounded-xl bg-blue-50 shadow-inner border-none focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
       ))}
 
+      {/* Message Field */}
       <div className="mb-6">
         <label className="block text-blue-600 text-sm mb-2">Message:</label>
         <textarea
@@ -52,6 +84,7 @@ const ContactForm = () => {
         />
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
         className="w-full py-3 rounded-xl bg-blue-300 text-blue-900 font-semibold shadow-[5px_5px_15px_#93c5fd,-5px_-5px_15px_#bfdbfe] hover:shadow-inner hover:text-blue-700 transition duration-200"

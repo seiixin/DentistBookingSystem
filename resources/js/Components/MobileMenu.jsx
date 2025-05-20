@@ -38,35 +38,35 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
             </div>
             <nav className="flex flex-col p-4 text-center">
                 <Link
-                    to="/"
+                    href="/"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600 border-b border-gray-100"
                     onClick={closeMenu}
                 >
                     Home
                 </Link>
                 <Link
-                    to="/menu"
+                    href="/menu"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600 border-b border-gray-100"
                     onClick={closeMenu}
                 >
                     Menu
                 </Link>
                 <Link
-                    to="/about"
+                    href="/about"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600 border-b border-gray-100"
                     onClick={closeMenu}
                 >
                     About
                 </Link>
                 <Link
-                    to="/contact"
+                    href="/contact"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600"
                     onClick={closeMenu}
                 >
                     Contact
                 </Link>
                 <Link
-                    to="/AdminPage"
+                    href="/AdminPage"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600"
                     onClick={closeMenu}
                     >
