@@ -29,7 +29,7 @@ class AppointmentController extends Controller
                 'status' => $appointment->status,
                 'number' => $appointment->number,
                 'email' => $appointment->email,
-                'user_name' => $appointment->user ? $appointment->user->name : 'Unknown', // add user name here
+                'user_name' => $appointment->user ? $appointment->user->name : 'Guest', // updated default to Guest
             ];
         });
 
@@ -37,6 +37,7 @@ class AppointmentController extends Controller
             'appointments' => $appointments,
         ]);
     }
+
     public function create()
     {
         $patients = User::select('id', 'name')->get();
@@ -46,6 +47,7 @@ class AppointmentController extends Controller
             'patients' => $patients,
         ]);
     }
+
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
@@ -107,10 +109,12 @@ class AppointmentController extends Controller
             'status' => 'required|in:Pending,Approved,Cancelled,Completed',
             'number' => 'required|string|max:20',
             'email' => 'required|email|max:255',
-            'user_id' => 'required|exists:users,id',
         ]);
 
-        $appointment = Appointment::create($validated);
+        // Assign user_id if authenticated, otherwise null (guest mode)
+        $validated['user_id'] = Auth::check() ? Auth::id() : null;
+
+        Appointment::create($validated);
 
         return redirect()->route('appointments.index')->with('success', 'Appointment created successfully');
     }

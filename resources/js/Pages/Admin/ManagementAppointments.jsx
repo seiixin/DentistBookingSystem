@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "@inertiajs/react";
+import { router } from "@inertiajs/react"; // import router for reload
 
 import AdminLayout from "@/Layouts/AdminLayout";
 import EditAppointment from "@/Components/Admin/EditAppointment";
@@ -17,7 +18,6 @@ const ManagementAppointments = ({ appointments: initialAppointments }) => {
   const [statusFilter, setStatusFilter] = useState("");
   const [treatmentFilter, setTreatmentFilter] = useState("");
 
-  // Converts 24-hour time string "HH:mm" to 12-hour format with AM/PM
   const formatTimeTo12Hour = (time) => {
     if (!time) return "";
     let [hour, minute] = time.split(":").map(Number);
@@ -31,26 +31,11 @@ const ManagementAppointments = ({ appointments: initialAppointments }) => {
     setTimeout(() => setFlashMessage(null), 3000);
   };
 
-  const handleAddAppointment = (newAppointment) => {
-    // Post to server using Inertia
-    post('/admin/appointments', newAppointment, {
-      onSuccess: (response) => {
-        // If the server returns the updated appointment with an ID, use that
-        const addedAppointment = response?.appointment || newAppointment;
-
-        // Update the appointments list in real-time
-        setAppointments((prev) => [...prev, addedAppointment]);
-
-        // Show success message
-        showFlashMessage("success", "Add Appointment Success");
-
-        // Close the modal
-        setAddingAppointment(false);
-      },
-      onError: (errors) => {
-        showFlashMessage("error", errors.message || "Failed to add appointment");
-      },
-    });
+  // New: reload appointments from server after creation instead of manually updating state
+  const handleAppointmentCreate = () => {
+    router.reload({ only: ['appointments'] }); // reload only appointments prop
+    setAddingAppointment(false); // close the modal after reload trigger
+    showFlashMessage("success", "Add Appointment Success");
   };
 
   const handleDelete = (id) => {
@@ -73,7 +58,6 @@ const ManagementAppointments = ({ appointments: initialAppointments }) => {
     showFlashMessage("success", "Appointment updated successfully");
   };
 
-  // Filtering logic by search query, status, and treatment
   const filteredAppointments = appointments.filter(({ patient_name, treatment, status }) => {
     const matchesSearch =
       patient_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -209,7 +193,7 @@ const ManagementAppointments = ({ appointments: initialAppointments }) => {
       {addingAppointment && (
         <AddAppointmentModal
           onClose={() => setAddingAppointment(false)}
-          onAdd={handleAddAppointment}
+          onCreate={handleAppointmentCreate}  // <-- changed prop from onAdd to onCreate
           treatmentOptions={treatmentOptions}
         />
       )}

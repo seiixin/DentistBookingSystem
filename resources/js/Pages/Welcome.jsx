@@ -17,7 +17,7 @@ const Welcome = () => {
           Your journey to better dental health starts here.
         </p>
         <Link
-          href="/book"
+          href="/appointment"
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg transition"
         >
           Book an Appointment
