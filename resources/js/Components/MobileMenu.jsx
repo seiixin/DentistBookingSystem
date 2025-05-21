@@ -45,11 +45,11 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
                     Home
                 </Link>
                 <Link
-                    href="/menu"
+                    href="/appointment"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600 border-b border-gray-100"
                     onClick={closeMenu}
                 >
-                    Menu
+                    Appointment
                 </Link>
                 <Link
                     href="/about"
@@ -66,7 +66,7 @@ const MobileMenu = ({ isOpen, closeMenu }) => {
                     Contact
                 </Link>
                 <Link
-                    href="/AdminPage"
+                    href="/login"
                     className="py-4 text-xl text-gray-800 hover:text-blue-600"
                     onClick={closeMenu}
                     >

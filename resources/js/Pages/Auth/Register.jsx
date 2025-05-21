@@ -1,10 +1,11 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
+import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
-import MainLayout from '@/Layouts/MainLayout';  
+import GuestLayout from '@/Layouts/GuestLayout';
+import MainLayout from '@/Layouts/MainLayout';
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
+import InputError from '@/Components/InputError';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -17,9 +18,10 @@ export default function Register() {
         password_confirmation: '',
     });
 
+    const handleChange = (field) => (e) => setData(field, e.target.value);
+
     const submit = (e) => {
         e.preventDefault();
-
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
@@ -45,9 +47,9 @@ export default function Register() {
                             id="first_name"
                             name="first_name"
                             value={data.first_name}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('first_name')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="given-name"
-                            onChange={(e) => setData('first_name', e.target.value)}
                             required
                         />
                         <InputError message={errors.first_name} className="mt-2" />
@@ -60,9 +62,9 @@ export default function Register() {
                             id="last_name"
                             name="last_name"
                             value={data.last_name}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('last_name')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="family-name"
-                            onChange={(e) => setData('last_name', e.target.value)}
                             required
                         />
                         <InputError message={errors.last_name} className="mt-2" />
@@ -76,15 +78,15 @@ export default function Register() {
                             type="email"
                             name="email"
                             value={data.email}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('email')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="email"
-                            onChange={(e) => setData('email', e.target.value)}
                             required
                         />
                         <InputError message={errors.email} className="mt-2" />
                     </div>
 
-                    {/* Number */}
+                    {/* Phone Number */}
                     <div className="mb-4">
                         <InputLabel htmlFor="number" value="Phone Number" />
                         <TextInput
@@ -92,9 +94,9 @@ export default function Register() {
                             type="tel"
                             name="number"
                             value={data.number}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('number')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="tel"
-                            onChange={(e) => setData('number', e.target.value)}
                             required
                         />
                         <InputError message={errors.number} className="mt-2" />
@@ -107,9 +109,9 @@ export default function Register() {
                             id="address"
                             name="address"
                             value={data.address}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('address')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="street-address"
-                            onChange={(e) => setData('address', e.target.value)}
                             required
                         />
                         <InputError message={errors.address} className="mt-2" />
@@ -123,9 +125,9 @@ export default function Register() {
                             type="password"
                             name="password"
                             value={data.password}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('password')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="new-password"
-                            onChange={(e) => setData('password', e.target.value)}
                             required
                         />
                         <InputError message={errors.password} className="mt-2" />
@@ -139,28 +141,22 @@ export default function Register() {
                             type="password"
                             name="password_confirmation"
                             value={data.password_confirmation}
-                            className="mt-1 block w-full"
+                            onChange={handleChange('password_confirmation')}
+                            className="mt-1 block w-full text-black"
                             autoComplete="new-password"
-                            onChange={(e) => setData('password_confirmation', e.target.value)}
                             required
                         />
                         <InputError message={errors.password_confirmation} className="mt-2" />
                     </div>
 
                     {/* Register Button */}
-                    <PrimaryButton
-                        className="w-full justify-center"
-                        disabled={processing}
-                    >
+                    <PrimaryButton className="w-full justify-center" disabled={processing}>
                         Register
                     </PrimaryButton>
 
                     <p className="text-center text-sm mt-4">
                         Already have an account?{' '}
-                        <Link
-                            href={route('login')}
-                            className="text-blue-500 hover:underline"
-                        >
+                        <Link href={route('login')} className="text-blue-500 hover:underline">
                             Login
                         </Link>
                     </p>
@@ -169,4 +165,5 @@ export default function Register() {
         </GuestLayout>
     );
 }
+
 Register.layout = (page) => <MainLayout>{page}</MainLayout>;
