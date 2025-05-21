@@ -19,7 +19,6 @@ const Sidebar = () => {
     };
 
     const links = [
-        { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
         { href: '/user/appointments', label: 'Appointments', icon: <CalendarDays size={20} /> },
         { href: '/user/settings', label: 'Account Settings', icon: <Settings size={20} /> },
         { href: '/user/book-appointment', label: 'Book Appointment', icon: <BookOpen size={20} /> },
